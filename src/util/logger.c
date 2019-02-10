@@ -49,7 +49,11 @@ int Logger_Log(const char* fmt, ...)
 {
 	int len;
 	va_list args;
+
 	if (!logger.inited) {
+#ifdef LCUI_BUILD_IN_WIN32
+		logger.handler = OutputDebugStringA;
+#endif
 		LCUIMutex_Init(&logger.mutex);
 		logger.inited = 1;
 	}
@@ -71,7 +75,11 @@ int Logger_LogW(const wchar_t* fmt, ...)
 {
 	int len;
 	va_list args;
+
 	if (!logger.inited) {
+#ifdef LCUI_BUILD_IN_WIN32
+		logger.handlerw = OutputDebugStringW;
+#endif
 		LCUIMutex_Init(&logger.mutex);
 		logger.inited = 1;
 	}
