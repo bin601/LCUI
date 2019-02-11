@@ -374,6 +374,22 @@ void Widget_GenerateHash(LCUI_Widget w)
 	}
 }
 
+int Widget_CopyHash(LCUI_Widget dst, LCUI_Widget src)
+{
+	LinkedListNode *dst_node, *src_node;
+
+	if (src->children.length != dst->children.length) {
+		return -1;
+	}
+	dst->hash = src->hash;
+	dst_node = dst->children.head.next;
+	for (LinkedList_Each(src_node, &src->children)) {
+		Widget_CopyHash(dst_node->data, src_node->data);
+		dst_node = dst_node->next;
+	}
+	return 0;
+}
+
 int Widget_SetRules(LCUI_Widget w, const LCUI_WidgetRulesRec *rules)
 {
 	LCUI_WidgetRulesData data;
